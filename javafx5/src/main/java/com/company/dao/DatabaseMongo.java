@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+
 import static com.mongodb.client.model.Filters.eq;
 
 public class DatabaseMongo implements Database {
@@ -48,7 +49,7 @@ public class DatabaseMongo implements Database {
 
             //QUERY
             for (Document d : collection.find(eq("classname", classname))) {
-                MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), d.getBoolean("isFilled"));
+                MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), Boolean.parseBoolean(d.getString("isFilled")));
                 System.out.println(myClass.toStringMongo());
                 return myClass;
             }
@@ -65,7 +66,7 @@ public class DatabaseMongo implements Database {
 
             //QUERY
             for (Document d : collection.find()) {
-                MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), d.getBoolean("isFilled"));
+                MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), Boolean.parseBoolean(d.getString("isFilled")));
                 myClasses.add(myClass);
                 System.out.println(myClass.toStringMongo());
             }
