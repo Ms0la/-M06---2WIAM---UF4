@@ -21,8 +21,9 @@ public class Main implements Database {
 
     public static void main(String[] args) {
         Main main = new Main();
-        String nameTmp, newNameTmp, dateTmp;
+        String nameTmp, newNameTmp, dateTmp, tutorNametmp, studentId, classId;
         int ageTmp;
+        Boolean isFilledTmp;
         java.util.Date utilDate;
         java.sql.Date sqlDate;
 
@@ -38,23 +39,37 @@ public class Main implements Database {
 
             switch (action) {
                 case 1:
-                    System.out.println("CLASS NAME [enter] CLASS TUTORNAME [enter] CLASS ISFILLED");
-                    main.insertClass(sc.next(), sc.next(), sc.nextBoolean());
+                    System.out.println("CLASS NAME");
+                    nameTmp = sc.nextLine();
+                    System.out.println("CLASS TUTORNAME");
+                    tutorNametmp = sc.nextLine();
+                    System.out.println("CLASS ISFILLED");
+                    isFilledTmp = sc.nextBoolean();
+                    main.insertClass(nameTmp, tutorNametmp, isFilledTmp);
+                    sc.nextLine();
                     break;
                 case 2:
                     System.out.println("CLASS NAME");
-                    main.queryClass(sc.next());
+                    main.queryClass(sc.nextLine());
                     break;
                 case 3:
                     main.queryAllClass();
                     break;
                 case 4:
-                    System.out.println("CLASS NAME");
-                    main.deleteClass(sc.next());
+                    System.out.println("CLASS ID");
+                    main.deleteClass(sc.nextLine());
                     break;
                 case 5:
-                    System.out.println("CLASS NAME [enter] CLASS NEW NAME [enter] FILM NEW TUTORNAME [enter] CLASS NEW ISFILLED");
-                    main.updateClass(sc.next(), sc.next(), sc.next(), sc.nextBoolean());
+                    System.out.println("CLASS ID");
+                    nameTmp = sc.nextLine();
+                    System.out.println("CLASS NEW NAME");
+                    newNameTmp = sc.nextLine();
+                    System.out.println("CLASS NEW TUTORNAME");
+                    tutorNametmp = sc.nextLine();
+                    System.out.println("CLASS NEW ISFILLED");
+                    isFilledTmp = sc.nextBoolean();
+                    main.updateClass(nameTmp, newNameTmp, tutorNametmp, isFilledTmp);
+                    sc.nextLine();
                     break;
 
                 case 6:
@@ -74,18 +89,18 @@ public class Main implements Database {
                     main.insertStudent(nameTmp, ageTmp, sqlDate);
                     break;
                 case 7:
-                    System.out.println("ACTOR NAME");
-                    main.queryStudent(sc.next());
+                    System.out.println("STUDENT NAME");
+                    main.queryStudent(sc.nextLine());
                     break;
                 case 8:
                     main.queryAllStudents();
                     break;
                 case 9:
-                    System.out.println("ACTOR NAME");
-                    main.deleteStudent(sc.next());
+                    System.out.println("STUDENT ID");
+                    main.deleteStudent(sc.nextLine());
                     break;
                 case 10:
-                    System.out.println("STUDENT NAME");
+                    System.out.println("STUDENT ID");
                     nameTmp = sc.nextLine();
                     System.out.println("STUDENT NEW NAME");
                     newNameTmp = sc.nextLine();
@@ -103,16 +118,25 @@ public class Main implements Database {
                     main.updateStudent(nameTmp, newNameTmp, ageTmp, sqlDate);
                     break;
                 case 11:
-                    System.out.println("STUDENT_ID [enter] CLASS_ID");
-                    main.insertRelation(sc.nextInt(), sc.nextInt());
+                    System.out.println("STUDENT_ID");
+                    studentId = sc.nextLine();
+                    System.out.println("CLASS_ID");
+                    classId = sc.nextLine();
+                    main.insertRelation(studentId, classId);
                     break;
                 case 12:
-                    System.out.println("STUDENT_ID [enter] CLASS_ID");
-                    main.deleteRelation(sc.nextInt(), sc.nextInt());
+                    System.out.println("STUDENT_ID");
+                    studentId = sc.nextLine();
+                    System.out.println("CLASS_ID");
+                    classId = sc.nextLine();
+                    main.deleteRelation(studentId, classId);
                     break;
                 case 13:
-                    System.out.println("STUDENT_ID [enter] CLASS_ID");
-                    main.queryRelation(sc.nextInt(), sc.nextInt()).toStringSql();
+                    System.out.println("STUDENT_ID");
+                    studentId = sc.nextLine();
+                    System.out.println("CLASS_ID");
+                    classId = sc.nextLine();
+                    main.queryRelation(studentId, classId);
                     break;
                 case 14:
                     main.queryAllRelations();
@@ -177,17 +201,17 @@ public class Main implements Database {
     }
 
     @Override
-    public void insertRelation(int id_student, int id_class) {
+    public void insertRelation(String id_student, String id_class) {
         db.insertRelation(id_student, id_class);
     }
 
     @Override
-    public void deleteRelation(int id_student, int id_class) {
+    public void deleteRelation(String id_student, String id_class) {
         db.deleteRelation(id_student, id_class);
     }
 
     @Override
-    public Relation queryRelation(int id_student, int id_class) {
+    public Relation queryRelation(String id_student, String id_class) {
         return db.queryRelation(id_student, id_class);
     }
 

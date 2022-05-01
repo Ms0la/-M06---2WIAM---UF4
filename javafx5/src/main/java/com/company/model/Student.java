@@ -30,7 +30,7 @@ public class Student {
 
     // MySql ToString
     public String toStringSql() {
-        return "Actor{" +
+        return "Student{" +
                 "id_sql=" + id_sql +
                 ", name='" + name + '\'' +
                 ", age=" + age +
@@ -40,7 +40,7 @@ public class Student {
 
     // Mongo ToString
     public String toStringMongo() {
-        return "Actor{" +
+        return "Student{" +
                 "id_mongo=" + id_mongo +
                 ", name='" + name + '\'' +
                 ", age=" + age +

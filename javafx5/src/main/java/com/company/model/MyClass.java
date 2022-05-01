@@ -27,9 +27,9 @@ public class MyClass {
 
     // MySql ToString
     public String toStringSql() {
-        return "Movie{" +
+        return "Class{" +
                 "id_sql='" + id_sql + '\'' +
-                ", title='" + className + '\'' +
+                ", className='" + className + '\'' +
                 ", tutorName='" + tutorName + '\'' +
                 ", isFilled='" + isFilled + '\'' +
                 '}';
@@ -37,9 +37,9 @@ public class MyClass {
 
     // Mongo ToString
     public String toStringMongo() {
-        return "Movie{" +
-                ", id_mongo=" + id_mongo +
-                ", title='" + className + '\'' +
+        return "Class{" +
+                "id_mongo=" + id_mongo +
+                ", className='" + className + '\'' +
                 ", tutorName='" + tutorName + '\'' +
                 ", isFilled='" + isFilled + '\'' +
                 '}';

@@ -18,7 +18,6 @@ public class DatabaseMysql implements Database{
 
     String uri ="jdbc:mysql://localhost/mydatabase?user=myuser&password=mypass";
 
-
     @Override
     public void insertClass(String className, String tutorName, boolean isFilled) {
         try(Connection conn = DriverManager.getConnection(uri)){
@@ -69,11 +68,11 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void deleteClass(String className) {
+    public void deleteClass(String classid) {
         try(Connection conn = DriverManager.getConnection(uri)){
             //DELETE
-            PreparedStatement statement = conn.prepareStatement("DELETE FROM class WHERE classname = (?)");
-            statement.setString(1, className);
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM class WHERE id = (?)");
+            statement.setString(1, classid);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -82,14 +81,14 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void updateClass(String className, String newClassName, String tutorName, boolean isFilled) {
+    public void updateClass(String class_id, String newClassName, String tutorName, boolean isFilled) {
         try(Connection conn = DriverManager.getConnection(uri)){
             //UPDATE
-            PreparedStatement statement = conn.prepareStatement("UPDATE movies SET classname = (?), tutorname = (?), isfilled = (?)  WHERE classname = (?)");
+            PreparedStatement statement = conn.prepareStatement("UPDATE class SET classname = (?), tutorname = (?), isfilled = (?)  WHERE id = (?)");
             statement.setString(1, newClassName);
             statement.setString(2, tutorName);
             statement.setString(3, String.valueOf(isFilled));
-            statement.setString(4, className);
+            statement.setString(4, class_id);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -146,11 +145,10 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void deleteStudent(String name) {
+    public void deleteStudent(String student_id) {
         try(Connection conn = DriverManager.getConnection(uri)){
-            //DELETE
-            PreparedStatement statement = conn.prepareStatement("DELETE FROM students WHERE name = (?)");
-            statement.setString(1, name);
+            PreparedStatement statement = conn.prepareStatement("DELETE FROM students WHERE id = (?)");
+            statement.setString(1, student_id);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -159,14 +157,13 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void updateStudent(String name, String newName, int age, Date bornDate) {
+    public void updateStudent(String student_id, String newName, int age, Date bornDate) {
         try(Connection conn = DriverManager.getConnection(uri)){
-            //UPDATE
-            PreparedStatement statement = conn.prepareStatement("UPDATE actors SET name = (?), age = (?), bornDate = (?) WHERE name = (?)");
+            PreparedStatement statement = conn.prepareStatement("UPDATE actors SET name = (?), age = (?), bornDate = (?) WHERE id = (?)");
             statement.setString(1, newName);
             statement.setInt(2, age);
             statement.setDate(3, bornDate);
-            statement.setString(4, name);
+            statement.setString(4, student_id);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -175,12 +172,11 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void insertRelation(int id_student, int id_class) {
+    public void insertRelation(String id_student, String id_class) {
         try(Connection conn = DriverManager.getConnection(uri)){
-            //INSERT
             PreparedStatement statement = conn.prepareStatement("INSERT INTO studentsClass(id_student, id_class) VALUES(?, ?)");
-            statement.setString(1, String.valueOf(id_student));
-            statement.setString(2, String.valueOf(id_class));
+            statement.setString(1, id_student);
+            statement.setString(2, id_class);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -189,12 +185,11 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public void deleteRelation(int id_student, int id_class) {
+    public void deleteRelation(String id_student, String id_class) {
         try(Connection conn = DriverManager.getConnection(uri)){
-            //DELETE
             PreparedStatement statement = conn.prepareStatement("DELETE FROM studentsClass WHERE id_student = (?) AND id_class = (?)");
-            statement.setString(1, String.valueOf(id_student));
-            statement.setString(2, String.valueOf(id_class));
+            statement.setString(1, id_student);
+            statement.setString(2, id_class);
             statement.executeUpdate();
 
         } catch (SQLException e) {
@@ -203,14 +198,13 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
-    public Relation queryRelation(int id_student, int id_class) {
+    public Relation queryRelation(String id_student, String id_class) {
         Relation relation = null;
         try(Connection conn = DriverManager.getConnection(uri)){
-            //QUERY
             ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM studentsClass WHERE id_student = '" + id_student + "' AND id_class = '" + id_class + "'");
             while (resultSet.next()) {
                 relation = new Relation(resultSet.getString("id_student"), resultSet.getString("id_class"), resultSet.getString("insertDate"));
-                System.out.println(relation.toStringSql());
+                System.out.println(relation);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -222,12 +216,11 @@ public class DatabaseMysql implements Database{
     public Stream<Relation> queryAllRelations() {
         List<Relation> relations = new ArrayList<>();
         try(Connection conn = DriverManager.getConnection(uri)){
-            //QUERY
             ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM studentsClass");
             while (resultSet.next()) {
                 Relation relation = new Relation(resultSet.getString("id_student"), resultSet.getString("id_class"), resultSet.getString("insertDate"));
                 relations.add(relation);
-                System.out.println(relation.toStringSql());
+                System.out.println(relation);
             }
         } catch (SQLException e) {
             e.printStackTrace();

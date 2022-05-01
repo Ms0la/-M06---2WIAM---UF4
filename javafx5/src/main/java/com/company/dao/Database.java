@@ -20,8 +20,8 @@ public interface Database {
     void deleteStudent(String name);
     void updateStudent(String name, String newName, int age, Date bornDate);
 
-    void insertRelation(int id_student, int id_class);
-    void deleteRelation(int id_student, int id_class);
-    Relation queryRelation(int id_student, int id_class);
+    void insertRelation(String id_student, String id_class);
+    void deleteRelation(String id_student, String id_class);
+    Relation queryRelation(String id_student, String id_class);
     Stream<Relation> queryAllRelations();
 }

@@ -1,7 +1,6 @@
 package com.company.dao;
 
 
-import com.company.Menu;
 import com.company.model.*;
 import com.mongodb.MongoException;
 import com.mongodb.client.MongoClient;
@@ -13,8 +12,11 @@ import com.mongodb.client.model.Updates;
 import com.mongodb.client.result.UpdateResult;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -33,7 +35,6 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("class");
 
-            // INSERT
             Document doc = new Document();
             doc.append("classname", className);
             doc.append("tutorname", tutorName);
@@ -47,7 +48,6 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("class");
 
-            //QUERY
             for (Document d : collection.find(eq("classname", classname))) {
                 MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), Boolean.parseBoolean(d.getString("isFilled")));
                 System.out.println(myClass.toStringMongo());
@@ -64,7 +64,6 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("class");
 
-            //QUERY
             for (Document d : collection.find()) {
                 MyClass myClass = new MyClass(d.getObjectId("_id"), d.getString("classname"), d.getString("tutorname"), Boolean.parseBoolean(d.getString("isFilled")));
                 myClasses.add(myClass);
@@ -75,26 +74,24 @@ public class DatabaseMongo implements Database {
     }
 
     @Override
-    public void deleteClass(String className) {
+    public void deleteClass(String id_mongo) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("class");
 
-            // DELETE
             Document doc = new Document();
-            doc.append("classname", className);
+            doc.append("_id", new ObjectId(id_mongo));
             collection.deleteOne(doc);
         }
     }
 
     @Override
-    public void updateClass(String className, String newClassName, String tutorName, boolean isFilled){
+    public void updateClass(String id_mongo, String newClassName, String tutorName, boolean isFilled){
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("class");
 
-            // INSERT
-            Document doc = new Document().append("classname", className);
+            Document doc = new Document().append("_id", new ObjectId(id_mongo));
 
             Bson updates = Updates.combine(
                     Updates.set("classname", newClassName),
@@ -118,7 +115,6 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("students");
 
-            // INSERT
             Document doc = new Document();
             doc.append("name", name);
             doc.append("age", age);
@@ -133,12 +129,12 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("students");
 
-            //QUERY
             for (Document d : collection.find(eq("name", name))) {
-                Student student = new Student(d.getObjectId("_id"), d.getString("name"), d.getInteger("age"), java.sql.Date.valueOf(d.getString("borndate")));
+                java.util.Date date = d.getDate("borndate");
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                Student student = new Student(d.getObjectId("_id"), d.getString("name"), d.getInteger("age"), sqlDate);
                 System.out.println(student.toStringMongo());
                 return student;
-
             }
         }
         return null;
@@ -151,9 +147,10 @@ public class DatabaseMongo implements Database {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("students");
 
-            //QUERY
             for (Document d : collection.find()) {
-                Student student = new Student(d.getObjectId("_id"), d.getString("name"), d.getInteger("age"), java.sql.Date.valueOf(d.getString("borndate")));
+                java.util.Date date = d.getDate("borndate");
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                Student student = new Student(d.getObjectId("_id"), d.getString("name"), d.getInteger("age"), sqlDate);
                 students.add(student);
                 System.out.println(student.toStringMongo());
             }
@@ -162,26 +159,25 @@ public class DatabaseMongo implements Database {
     }
 
     @Override
-    public void deleteStudent(String name) {
+    public void deleteStudent(String id_mongo) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("students");
 
             // DELETE
             Document doc = new Document();
-            doc.append("name", name);
+            doc.append("_id", new ObjectId(id_mongo));
             collection.deleteOne(doc);
         }
     }
 
     @Override
-    public void updateStudent(String name, String newName, int age, Date bornDate) {
+    public void updateStudent(String id_mongo, String newName, int age, java.sql.Date bornDate) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("students");
 
-            // INSERT
-            Document doc = new Document().append("name", name);
+            Document doc = new Document().append("_id", new ObjectId(id_mongo));
 
             Bson updates = Updates.combine(
                     Updates.set("name", newName),
@@ -200,65 +196,69 @@ public class DatabaseMongo implements Database {
     }
 
     @Override
-    public void insertRelation(int id_student, int id_class) {
+    public void insertRelation(String id_student, String id_class) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("studentsClass");
 
-            // INSERT
             Document doc = new Document();
             doc.append("id_student", id_student);
-            doc.append("id_movie", id_class);
+            doc.append("id_class", id_class);
+
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            LocalDateTime now = LocalDateTime.now();
+
+            doc.append("timeStamp", dtf.format(now));
+
             collection.insertOne(doc);
         }
     }
 
     @Override
-    public void deleteRelation(int id_student, int id_movie) {
+    public void deleteRelation(String id_student, String id_class) {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("studentsClass");
 
-            // DELETE
             Document doc = new Document();
             doc.append("id_student", id_student);
-            doc.append("id_class", id_movie);
+            doc.append("id_class", id_class);
             collection.deleteOne(doc);
         }
     }
 
     @Override
-    public Relation queryRelation(int id_actor, int id_class) {
-        //TODO
+    public Relation queryRelation(String id_student, String id_class) {
         List<Relation> relations = new ArrayList<>();
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("studentsClass");
 
-            //QUERY
-            for (Document d : collection.find()) {
-                Relation relation = new Relation(d.getString("id_student"), d.getString("id_class"), d.getString("timeStamp"));
-                relations.add(relation);
-                System.out.println(relation.toStringMongo());
+            for (Document d : collection.find(eq("id_student", id_student))) {
+                for(Document d1: collection.find(eq("id_class", id_class))){
+                    Relation relation = new Relation(d1.getString("id_student"), d1.getString("id_class"), d1.getString("timeStamp"));
+                    relations.add(relation);
+                    System.out.println(relation);
+                }
             }
+
         }
         return relations.get(0);
     }
 
     @Override
     public Stream<Relation> queryAllRelations() {
-        //TODO
         List<Relation> relations = new ArrayList<>();
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("sampledb");
             MongoCollection<Document> collection = database.getCollection("studentsClass");
 
-            //QUERY
             for (Document d : collection.find()) {
                 Relation relation = new Relation(d.getString("id_student"), d.getString("id_class"), d.getString("timeStamp"));
                 relations.add(relation);
-                System.out.println(relation.toStringMongo());
+                System.out.println(relation);
             }
+
         }
         return relations.stream();
     }

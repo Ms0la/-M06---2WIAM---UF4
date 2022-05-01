@@ -12,7 +12,7 @@ public class Menu {
             System.out.println("\t[1] MySql       " );
             System.out.println("\t[2] MongoDB     " );
             System.out.println("\t[q] Exit        " );
-            String dbSelector = scanner.next();
+            String dbSelector = scanner.nextLine();
 
             if (dbSelector.equals("q")) {
                 return 0;
@@ -30,26 +30,26 @@ public class Menu {
 
     public static int actionMenu() {
         while(true) {
-            System.out.println("SELECT ACTION:             ");
-            System.out.println("\t[1] INSERT CLASS        ");
-            System.out.println("\t[2] SHOW CLASS          ");
-            System.out.println("\t[3] SHOW ALL CLASS     ");
-            System.out.println("\t[4] DELETE CLASS        ");
-            System.out.println("\t[5] UPDATE CLASS        ");
-            System.out.println("\n");
-            System.out.println("\t[6] INSERT STUDENT       ");
-            System.out.println("\t[7] SHOW STUDENT         ");
-            System.out.println("\t[8] SHOW ALL STUDENTS    ");
-            System.out.println("\t[9] DELETE STUDENT       ");
-            System.out.println("\t[10] UPDATE STUDENT      ");
-            System.out.println("\t                       ");
-            System.out.println("\t[11] INSERT RELATION   ");
-            System.out.println("\t[12] DELETE RELATION   ");
-            System.out.println("\t[13] QUERY RELATION    ");
-            System.out.println("\t[14] QUERY ALL RELATION");
-            System.out.println("\t[q] Exit               ");
+            System.out.println("SELECT ACTION:");
+            System.out.println("\t[1] INSERT CLASS");
+            System.out.println("\t[2] SHOW CLASS");
+            System.out.println("\t[3] SHOW ALL CLASS");
+            System.out.println("\t[4] DELETE CLASS");
+            System.out.println("\t[5] UPDATE CLASS\n");
 
-            String actionSelector = scanner.next();
+            System.out.println("\t[6] INSERT STUDENT");
+            System.out.println("\t[7] SHOW STUDENT");
+            System.out.println("\t[8] SHOW ALL STUDENTS");
+            System.out.println("\t[9] DELETE STUDENT");
+            System.out.println("\t[10] UPDATE STUDENT\n");
+
+            System.out.println("\t[11] INSERT RELATION");
+            System.out.println("\t[12] DELETE RELATION");
+            System.out.println("\t[13] QUERY RELATION");
+            System.out.println("\t[14] QUERY ALL RELATION");
+            System.out.println("\t[q] Exit");
+
+            String actionSelector = scanner.nextLine();
 
             switch (actionSelector) {
                 case "q":
