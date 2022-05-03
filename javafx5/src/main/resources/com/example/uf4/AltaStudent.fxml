@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="324.0" prefWidth="455.0" style="-fx-background-color: #39CCCC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.uf4.THEController" >
+    <children>
+        <HBox prefHeight="20.0" prefWidth="455.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+                    <HBox.margin>
+                        <Insets left="40.0" right="32.0" />
+                    </HBox.margin>
+                </Text>
+                <TextField fx:id="textStudentName" />
+            </children>
+         <VBox.margin>
+            <Insets top="40.0" />
+         </VBox.margin>
+        </HBox>
+        <HBox layoutX="10.0" layoutY="10.0" prefHeight="20.0" prefWidth="455.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Age">
+                    <HBox.margin>
+                        <Insets left="40.0" right="42.0" />
+                    </HBox.margin>
+                </Text>
+                <TextField fx:id="textStudentAge" onKeyTyped="#checkNumbers" prefHeight="25.0" prefWidth="64.0" />
+            </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+        </HBox>
+      <HBox prefHeight="20.0" prefWidth="455.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Born Date">
+               <HBox.margin>
+                  <Insets left="40.0" right="10.0" />
+               </HBox.margin>
+            </Text>
+            <TextField fx:id="textStudentBornDate"  promptText="DD MM AAAA" />
+         </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER" maxHeight="20.0" prefHeight="50.0" prefWidth="169.0">
+         <children>
+            <RadioButton fx:id="insertStudentSql" mnemonicParsing="false" onAction="#onsqlbuttonclick2" selected="true" text="SQL">
+               <opaqueInsets>
+                  <Insets right="10.0" />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </RadioButton>
+            <Pane prefHeight="22.0" prefWidth="38.0" />
+            <RadioButton fx:id="insertStudentMongo" mnemonicParsing="false" onAction="#onmongobuttonclick2" text="MongoDB">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </RadioButton>
+         </children>
+         <VBox.margin>
+            <Insets top="30.0" />
+         </VBox.margin>
+      </HBox>
+        <HBox alignment="BOTTOM_RIGHT" prefHeight="20.0" prefWidth="461.0">
+            <children>
+                <Button fx:id="cancelInsertBtn" mnemonicParsing="false" onAction="#stopInsertStudent" text="Cancel">
+               <HBox.margin>
+                  <Insets right="24.0" />
+               </HBox.margin></Button>
+                <Button mnemonicParsing="false" onAction="#insertStudentClick" text="Save">
+                    <HBox.margin>
+                        <Insets right="24.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+         <VBox.margin>
+            <Insets bottom="28.0" top="30.0" />
+         </VBox.margin>
+        </HBox>
+    </children>
+</VBox>

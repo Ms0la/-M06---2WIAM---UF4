@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" prefHeight="185.0" prefWidth="420.0" style="-fx-background-color: #39CCCC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.uf4.THEController">
+    <children>
+        <HBox prefHeight="20.0" prefWidth="455.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name">
+                    <HBox.margin>
+                        <Insets left="40.0" right="32.0" />
+                    </HBox.margin>
+                </Text>
+                <TextField fx:id="textRelationStudentName" />
+            </children>
+         <VBox.margin>
+            <Insets top="40.0" />
+         </VBox.margin>
+        </HBox>
+        <HBox alignment="BOTTOM_RIGHT" prefHeight="20.0" prefWidth="461.0">
+            <children>
+                <Button fx:id="cancelInsertBtn" mnemonicParsing="false" onAction="#stopInsertStudent" text="Cancel">
+               <HBox.margin>
+                  <Insets right="24.0" />
+               </HBox.margin></Button>
+                <Button mnemonicParsing="false" onAction="#insertRelationClick" text="Save">
+                    <HBox.margin>
+                        <Insets right="24.0" />
+                    </HBox.margin>
+                </Button>
+            </children>
+         <VBox.margin>
+            <Insets bottom="28.0" top="30.0" />
+         </VBox.margin>
+        </HBox>
+    </children>
+</VBox>

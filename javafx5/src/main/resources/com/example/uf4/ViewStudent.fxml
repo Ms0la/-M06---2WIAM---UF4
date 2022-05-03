@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="640.0" style="-fx-background-color: #39CCCC;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.uf4.THEController">
+   <children>
+      <HBox prefHeight="40.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Student Name">
+               <HBox.margin>
+                  <Insets left="8.0" right="32.0" top="10.0" />
+               </HBox.margin>
+            </Text>
+            <TextField fx:id="studentText" prefHeight="25.0" prefWidth="118.0" promptText="Student Name">
+               <HBox.margin>
+                  <Insets top="8.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <VBox.margin>
+            <Insets top="10.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" prefHeight="28.0" prefWidth="200.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#searchStudent" text="Buscar">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="16.0" prefWidth="200.0">
+         <children>
+            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Alumnes">
+               <HBox.margin>
+                  <Insets bottom="8.0" left="8.0" top="4.0" />
+               </HBox.margin>
+            </Text>
+         </children>
+      </HBox>
+      <TableView fx:id="tableStudent" prefHeight="150.0" prefWidth="584.0">
+        <columns>
+            <TableColumn prefWidth="142.0" text="AlumneID" />
+          <TableColumn prefWidth="153.0" text="Name" />
+          <TableColumn prefWidth="166.0" text="Age" />
+            <TableColumn prefWidth="162.0" text="Born Date" />
+        </columns>
+         <opaqueInsets>
+            <Insets top="18.0" />
+         </opaqueInsets>
+         <VBox.margin>
+            <Insets left="8.0" right="8.0" />
+         </VBox.margin>
+      </TableView>
+      <HBox alignment="CENTER_RIGHT" prefHeight="51.0" prefWidth="600.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#clickUpdateStudent" text="Edit">
+               <HBox.margin>
+                  <Insets right="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#clickDeleteStudent" text="Delete">
+               <HBox.margin>
+                  <Insets right="8.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+         <children>
+            <Button fx:id="btnMyClassView" mnemonicParsing="false" onAction="#openMyClassView" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 10em;">
+               <graphic>
+                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@myclass.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Pane prefHeight="100.0" prefWidth="157.0" />
+            <HBox alignment="CENTER" maxHeight="20.0" prefHeight="50.0" prefWidth="169.0">
+               <children>
+                  <RadioButton fx:id="sql" mnemonicParsing="false" onAction="#onsqlbuttonclick" selected="true" text="SQL">
+                     <opaqueInsets>
+                        <Insets right="10.0" />
+                     </opaqueInsets>
+                  </RadioButton>
+                  <Pane prefHeight="22.0" prefWidth="38.0" />
+                  <RadioButton fx:id="mongo" mnemonicParsing="false" onAction="#onmongobuttonclick" text="MongoDB" />
+               </children>
+            </HBox>
+            <Pane prefHeight="100.0" prefWidth="150.0" />
+            <Button mnemonicParsing="false" onAction="#openAltaStudent" prefHeight="40.0" prefWidth="40.0" style="-fx-background-radius: 5em;" text="+">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <HBox.margin>
+                  <Insets right="38.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
+   </children>
+</VBox>

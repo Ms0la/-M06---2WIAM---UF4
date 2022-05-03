@@ -44,4 +44,24 @@ public class MyClass {
                 ", isFilled='" + isFilled + '\'' +
                 '}';
     }
+
+    public String getId_sql() {
+        return id_sql;
+    }
+
+    public ObjectId getId_mongo() {
+        return id_mongo;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public boolean getIsFilled() {
+        return isFilled;
+    }
 }

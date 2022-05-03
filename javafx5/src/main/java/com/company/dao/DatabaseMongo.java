@@ -141,6 +141,23 @@ public class DatabaseMongo implements Database {
     }
 
     @Override
+    public Student queryStudentByID(String id) {
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            database = mongoClient.getDatabase("sampledb");
+            MongoCollection<Document> collection = database.getCollection("students");
+
+            for (Document d : collection.find(eq("_id", new ObjectId(id)))) {
+                java.util.Date date = d.getDate("borndate");
+                java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                Student student = new Student(d.getObjectId("_id"), d.getString("name"), d.getInteger("age"), sqlDate);
+                System.out.println(student.toStringMongo());
+                return student;
+            }
+        }
+        return null;
+    }
+
+    @Override
     public Stream<Student> queryAllStudents() {
         List<Student> students = new ArrayList<>();
         try (MongoClient mongoClient = MongoClients.create(uri)) {
@@ -244,6 +261,22 @@ public class DatabaseMongo implements Database {
 
         }
         return relations.get(0);
+    }
+
+    @Override
+    public Stream<Relation> queryRelationsByClassID(String id_class) {
+        List<Relation> relations = new ArrayList<>();
+        try (MongoClient mongoClient = MongoClients.create(uri)) {
+            database = mongoClient.getDatabase("sampledb");
+            MongoCollection<Document> collection = database.getCollection("studentsClass");
+
+                for(Document d1: collection.find(eq("id_class", id_class))){
+                    Relation relation = new Relation(d1.getString("id_student"), d1.getString("id_class"), d1.getString("timeStamp"));
+                    relations.add(relation);
+                    System.out.println(relation);
+                }
+        }
+        return relations.stream();
     }
 
     @Override

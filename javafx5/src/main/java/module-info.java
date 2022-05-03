@@ -18,5 +18,6 @@ module com.example.uf4 {
 
     opens com.company.dao to javafx.fxml, javafx.base;
     opens com.company.model to javafx.fxml, javafx.base;
-
+    opens com.example.uf4 to javafx.fxml, javafx.base;
+    exports com.example.uf4;
 }

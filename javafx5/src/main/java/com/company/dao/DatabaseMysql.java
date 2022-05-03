@@ -128,6 +128,22 @@ public class DatabaseMysql implements Database{
     }
 
     @Override
+    public Student queryStudentByID(String id) {
+        Student student = null;
+        try(Connection conn = DriverManager.getConnection(uri)){
+            //QUERY
+            ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM students WHERE id = '" + id + "'");
+            while (resultSet.next()) {
+                student = new Student(resultSet.getString("id"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getDate("borndate"));
+                System.out.println(student.toStringSql());
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
+    }
+
+    @Override
     public Stream<Student> queryAllStudents() {
         List<Student> students = new ArrayList<>();
         try(Connection conn = DriverManager.getConnection(uri)){
@@ -159,7 +175,7 @@ public class DatabaseMysql implements Database{
     @Override
     public void updateStudent(String student_id, String newName, int age, Date bornDate) {
         try(Connection conn = DriverManager.getConnection(uri)){
-            PreparedStatement statement = conn.prepareStatement("UPDATE actors SET name = (?), age = (?), bornDate = (?) WHERE id = (?)");
+            PreparedStatement statement = conn.prepareStatement("UPDATE students SET name = (?), age = (?), bornDate = (?) WHERE id = (?)");
             statement.setString(1, newName);
             statement.setInt(2, age);
             statement.setDate(3, bornDate);
@@ -210,6 +226,22 @@ public class DatabaseMysql implements Database{
             e.printStackTrace();
         }
         return relation;
+    }
+
+    @Override
+    public Stream<Relation> queryRelationsByClassID(String id_class) {
+        List<Relation> relations = new ArrayList<>();
+        try(Connection conn = DriverManager.getConnection(uri)){
+            ResultSet resultSet = conn.createStatement().executeQuery("SELECT * FROM studentsClass WHERE id_class = '" + id_class + "'");
+            while (resultSet.next()) {
+                Relation relation = new Relation(resultSet.getString("id_student"), resultSet.getString("id_class"), resultSet.getString("insertDate"));
+                relations.add(relation);
+                System.out.println(relation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return relations.stream();
     }
 
     @Override

@@ -186,6 +186,11 @@ public class Main implements Database {
     }
 
     @Override
+    public Student queryStudentByID(String id) {
+        return db.queryStudentByID(id);
+    }
+
+    @Override
     public Stream<Student> queryAllStudents() {
         return db.queryAllStudents();
     }
@@ -213,6 +218,11 @@ public class Main implements Database {
     @Override
     public Relation queryRelation(String id_student, String id_class) {
         return db.queryRelation(id_student, id_class);
+    }
+
+    @Override
+    public Stream<Relation> queryRelationsByClassID(String id_class) {
+        return db.queryRelationsByClassID(id_class);
     }
 
     @Override

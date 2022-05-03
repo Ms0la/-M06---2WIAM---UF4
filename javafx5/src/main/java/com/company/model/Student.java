@@ -47,4 +47,24 @@ public class Student {
                 ", bornDate=" + bornDate +
                 '}';
     }
+
+    public String getId_sql() {
+        return id_sql;
+    }
+
+    public ObjectId getId_mongo() {
+        return id_mongo;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Date getBornDate() {
+        return bornDate;
+    }
 }
